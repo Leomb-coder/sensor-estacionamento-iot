@@ -1,4 +1,5 @@
-from flask import Flask, request, jsonify
+from flask import Flask
+import json
 from flask_mqtt import Mqtt
 
 from db import get_connection
@@ -24,13 +25,19 @@ def handle_connect(client, userdata, flags, rc):
    else:
        print('Conexão ruim. Código:', rc)
 
-@mqtt_client.on_message() # Receber MSG
+@mqtt_client.on_message()
 def handle_mqtt_message(client, userdata, message):
-   data = dict(
-       topic=message.topic,
-       payload=message.payload.decode()
-  )
-   print('Received message on topic: {topic} with payload: {payload}'.format(**data))
+    payload = message.payload.decode()
+
+    print(f"Recebido: {topic} -> {payload}")
+
+    data = json.loads(payload)
+
+    vaga = data["vaga"]
+    ocupada = data["ocupada"]
+
+    print(f"Vaga: {vaga}")
+    print(f"Ocupada: {ocupada}")
 
 # Rotas
 @app.route('/')

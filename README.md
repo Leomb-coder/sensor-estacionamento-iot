@@ -42,3 +42,6 @@ Mensagem:<br>
   "ocupada": true,<br>
   "distancia": 8.4<br>
 }<br>
+
+## Fontes Usadas:
+Sistema MQTT: [https://www.emqx.com/en/blog/how-to-use-mqtt-in-flask](https://www.emqx.com/en/blog/how-to-use-mqtt-in-flask)

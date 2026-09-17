@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_mqtt import Mqtt
 
+from db import get_connection
+
 app = Flask(__name__)
 
 # Conexão MQTT
@@ -33,6 +35,11 @@ def handle_mqtt_message(client, userdata, message):
 # Rotas
 @app.route('/')
 def homepage():
+    conn = get_connection()
+    if conn:
+        conn.close()
+        return "<h1>Banco conectado</h1>"
+
     return "<h1>Hello World</h1>"
 
 if __name__ == "__main__":

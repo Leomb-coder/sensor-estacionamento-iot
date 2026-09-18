@@ -1,0 +1,287 @@
+/* ---------- Tokens ---------- */
+:root {
+    --bg: #12161c;
+    --panel: #1a2029;
+    --panel-border: #262e3a;
+    --text: #e7ecf2;
+    --text-muted: #8792a2;
+    --free: #34d399;
+    --free-dim: rgba(52, 211, 153, 0.14);
+    --occupied: #f4635c;
+    --occupied-dim: rgba(244, 99, 92, 0.14);
+    --amber: #f5a623;
+    --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+}
+
+main {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 24px 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+:focus-visible {
+    outline: 2px solid var(--amber);
+    outline-offset: 2px;
+}
+
+/* ---------- Topbar ---------- */
+.topbar {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 40px 24px 24px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.topbar__title h1 {
+    margin: 0 0 4px;
+    font-size: 1.9rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.topbar__title p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.topbar__live {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    padding-bottom: 4px;
+}
+
+.live-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text-muted);
+}
+
+.topbar__live.is-online .live-dot {
+    background: var(--free);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.topbar__live.is-offline .live-dot {
+    background: var(--occupied);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .topbar__live.is-online .live-dot { animation: none; }
+}
+
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 var(--free-dim); }
+    50% { box-shadow: 0 0 0 6px var(--free-dim); }
+}
+
+/* ---------- Board (indicadores das vagas) ---------- */
+.board__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.vaga-card {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 12px;
+    padding: 28px 16px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    text-align: center;
+}
+
+.vaga-card__led {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 600;
+    border: 3px solid currentColor;
+    transition: color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.vaga-card--livre .vaga-card__led {
+    color: var(--free);
+    box-shadow: 0 0 22px 2px var(--free-dim);
+}
+
+.vaga-card--ocupada .vaga-card__led {
+    color: var(--occupied);
+    box-shadow: 0 0 22px 2px var(--occupied-dim);
+}
+
+.vaga-card__status {
+    font-weight: 600;
+    font-size: 1.05rem;
+}
+
+.vaga-card--livre .vaga-card__status { color: var(--free); }
+.vaga-card--ocupada .vaga-card__status { color: var(--occupied); }
+
+.vaga-card__tempo {
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    min-height: 1.2em;
+}
+
+/* ---------- Stats ---------- */
+.stats {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 16px;
+}
+
+.panel {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.panel__label {
+    margin: 0 0 14px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.panel__sub {
+    margin: 10px 0 0;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.taxa__row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.taxa__numero {
+    font-family: var(--font-mono);
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: var(--amber);
+    min-width: 88px;
+}
+
+.taxa__barra {
+    flex: 1;
+    height: 10px;
+    background: #232a35;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.taxa__preenchimento {
+    height: 100%;
+    width: 0%;
+    background: var(--amber);
+    border-radius: 999px;
+    transition: width 0.5s ease;
+}
+
+#grafico-horarios {
+    width: 100%;
+    height: 140px;
+    display: block;
+    overflow: visible;
+}
+
+.grafico-barra { fill: var(--amber); opacity: 0.85; }
+.grafico-eixo { stroke: var(--panel-border); stroke-width: 1; }
+.grafico-rotulo {
+    fill: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 8px;
+}
+
+/* ---------- Histórico ---------- */
+.historico__tabela-wrap {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 12px;
+    overflow-x: auto;
+}
+
+.historico__tabela {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    min-width: 480px;
+}
+
+.historico__tabela thead th {
+    text-align: left;
+    padding: 14px 16px;
+    color: var(--text-muted);
+    font-weight: 500;
+    border-bottom: 1px solid var(--panel-border);
+}
+
+.historico__tabela tbody td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--panel-border);
+    font-family: var(--font-mono);
+    color: var(--text);
+}
+
+.historico__tabela tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.historico__vazio td {
+    color: var(--text-muted);
+    font-family: var(--font-sans);
+    text-align: center;
+    padding: 24px 16px;
+}
+
+.tag-aberta {
+    color: var(--free);
+}
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 640px) {
+    .board__grid {
+        grid-template-columns: 1fr;
+    }
+    .stats {
+        grid-template-columns: 1fr;
+    }
+    .taxa__numero {
+        font-size: 1.9rem;
+        min-width: 72px;
+    }
+}

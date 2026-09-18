@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Estacionamento</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <header class="topbar">
+        <div class="topbar__title">
+            <h1>Painel de vagas</h1>
+            <p>Estacionamento do shopping, nível térreo</p>
+        </div>
+        <div class="topbar__live" id="live-indicator">
+            <span class="live-dot"></span>
+            <span id="live-text">conectando…</span>
+        </div>
+    </header>
+
+    <main>
+        <!-- Board com as 3 vagas -->
+        <section class="board" aria-label="Status das vagas">
+            <div class="board__grid" id="vagas-grid">
+                <!-- preenchido via JS -->
+            </div>
+        </section>
+
+        <!-- Estatísticas -->
+        <section class="stats">
+            <div class="panel panel--taxa">
+                <p class="panel__label">Taxa de ocupação agora</p>
+                <div class="taxa__row">
+                    <span class="taxa__numero" id="taxa-numero">--%</span>
+                    <div class="taxa__barra">
+                        <div class="taxa__preenchimento" id="taxa-preenchimento"></div>
+                    </div>
+                </div>
+                <p class="panel__sub" id="taxa-sub">-- de -- vagas ocupadas</p>
+            </div>
+
+            <div class="panel panel--horarios">
+                <p class="panel__label">Horários com mais movimento</p>
+                <svg id="grafico-horarios" viewBox="0 0 480 140" preserveAspectRatio="none" role="img" aria-label="Entradas por hora do dia"></svg>
+            </div>
+        </section>
+
+        <!-- Histórico -->
+        <section class="historico">
+            <p class="panel__label">Histórico recente</p>
+            <div class="historico__tabela-wrap">
+                <table class="historico__tabela">
+                    <thead>
+                        <tr>
+                            <th>Vaga</th>
+                            <th>Entrada</th>
+                            <th>Saída</th>
+                            <th>Duração</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historico-corpo">
+                        <!-- preenchido via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
